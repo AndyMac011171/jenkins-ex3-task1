@@ -32,7 +32,7 @@ pipeline {
             steps {
 
                 sh 'docker run -d --name flask-app --network jenk-network flask-jenk'
-                sh 'docker run -d -p 80:80 --name nginx --network new-network nginx-jenk:latest'
+                sh 'docker run -d -p 80:80 --name nginx --network jenk-network nginx-jenk:latest'
 
             }
 
