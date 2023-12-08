@@ -7,6 +7,7 @@ pipeline {
          stage('Init') {
             steps {
                 sh '''
+                ssh -i ~/.ssh.id_rsa jenkins@10.154.0.34 << EOF
                 docker network create jenk-network || echo "Network Already Exists"
                 docker stop flask-app || echo "flask-app Not Running"
                 docker stop nginx || echo "nginx Not Running"
@@ -40,9 +41,11 @@ stage('Push') {
         stage('Deploy') {
 
             steps {
-
-                sh 'docker run -d --name flask-app --network jenk-network docker.io/andymac011171/flask-jenk'
-                sh 'docker run -d -p 80:80 --name nginx --network jenk-network docker.io/andymac011171/nginx-jenk:latest'
+                sh '''
+                ssh -i ~/.ssh.id_rsa jenkins@10.154.0.34 << EOF
+                docker run -d --name flask-app --network jenk-network docker.io/andymac011171/flask-jenk
+                docker run -d -p 80:80 --name nginx --network jenk-network docker.io/andymac011171/nginx-jenk:latest
+                '''
 
             }
 
