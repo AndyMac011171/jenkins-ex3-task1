@@ -20,8 +20,8 @@ pipeline {
 
             steps {
 
-                sh 'docker build -t docker.io/andymac011171/flask-jenk:latest .'
-                sh 'docker build -t docker.io/andymac011171/nginx-jenk:latest ./nginx'
+                sh 'docker build -t andymac011171/flask-jenk:latest -t andymac011171/flask-jenk:v${BUILD_NUMBER} .'
+                sh 'docker build -t docker.io/andymac011171/nginx-jenk:latest -t docker.io/andymac011171/nginx-jenk:v${BUILD_NUMBER} ./nginx'
 
             }
 
@@ -30,9 +30,10 @@ stage('Push') {
 
             steps {
 
-                sh 'docker push docker.io/andymac011171/flask-jenk:latest'
+                sh 'docker push andymac011171/flask-jenk:latest'
+                sh 'docker push andymac011171/flask-jenk:v$(BUILD_NUMBER)'
                 sh 'docker push docker.io/andymac011171/nginx-jenk:latest'
-
+                sh 'docker push docker.io/andymac011171/nginx-jenk:v$(BUILD_NUMBER)'
             }
 
         }
