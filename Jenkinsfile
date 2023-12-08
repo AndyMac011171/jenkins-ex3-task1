@@ -20,19 +20,28 @@ pipeline {
 
             steps {
 
-                sh 'docker build -t flask-jenk .'
-                sh 'docker build -t nginx-jenk ./nginx'
+                sh 'docker build -t docker.io/AndyMac/flask-jenk:latest .'
+                sh 'docker build -t docker.io/AndyMac/nginx-jenk:latest ./nginx'
 
             }
 
         }
+stage('Push') {
 
+            steps {
+
+                sh 'docker push docker.io/AndyMac/flask-jenk:latest'
+                sh 'docker push docker.io/AndyMac/nginx-jenk:latest'
+
+            }
+
+        }
         stage('Deploy') {
 
             steps {
 
-                sh 'docker run -d --name flask-app --network jenk-network flask-jenk'
-                sh 'docker run -d -p 80:80 --name nginx --network jenk-network nginx-jenk:latest'
+                sh 'docker run -d --name flask-app --network jenk-network docker.io/AndyMac/flask-jenk'
+                sh 'docker run -d -p 80:80 --name nginx --network jenk-network docker.io/AndyMac/nginx-jenk:latest'
 
             }
 
