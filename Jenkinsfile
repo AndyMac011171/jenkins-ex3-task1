@@ -31,9 +31,9 @@ stage('Push') {
             steps {
 
                 sh 'docker push andymac011171/flask-jenk:latest'
-                sh 'docker push andymac011171/flask-jenk:v$(BUILD_NUMBER)'
+                sh 'docker push andymac011171/flask-jenk:v${BUILD_NUMBER}'
                 sh 'docker push docker.io/andymac011171/nginx-jenk:latest'
-                sh 'docker push docker.io/andymac011171/nginx-jenk:v$(BUILD_NUMBER)'
+                sh 'docker push docker.io/andymac011171/nginx-jenk:v${BUILD_NUMBER}'
             }
 
         }
